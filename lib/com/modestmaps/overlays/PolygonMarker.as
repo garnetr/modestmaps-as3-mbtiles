@@ -40,7 +40,18 @@ package com.modestmaps.overlays
 		public var autoClose:Boolean = true;
 
 		public var fill:Boolean = true;
-		public var fillColor:uint = 0xff0000;
+		private var _fillColor:uint = 0xff0000;
+		public function get fillColor():uint
+		{
+			return _fillColor;
+		}
+
+		public function set fillColor(value:uint):void
+		{
+			_fillColor = value;
+			updateGraphics();
+		}
+
 		public var fillAlpha:Number = 0.2;
 		
 		public var bitmapFill:Boolean = false;
@@ -67,6 +78,30 @@ package com.modestmaps.overlays
 			this.mouseEnabled = false;
 			this.autoClose = autoClose;
 
+			resetLocations(locations);
+/**			if (locations && locations.length > 0)
+			{
+				if (locations.length > 0 && locations[0] is Location)
+				{
+					locations = [ locations ];
+				}
+				if (locations[0].length > 0 && locations[0] is Array)
+				{
+					this.locations = [ locations[0] ];
+					this.extent = MapExtent.fromLocations(locations[0]);
+					this.location = locations[0][0] as Location;
+					this.coordinates = [ locations[0].map(l2c) ];
+					
+					for each (var hole:Array in locations.slice(1))
+					{
+						addHole(hole);
+					}					
+				}
+			}**/
+		}
+		
+		public function resetLocations(locations : Array) : void
+		{
 			if (locations && locations.length > 0)
 			{
 				if (locations.length > 0 && locations[0] is Location)
@@ -83,8 +118,43 @@ package com.modestmaps.overlays
 					for each (var hole:Array in locations.slice(1))
 					{
 						addHole(hole);
-					}
+					}					
+					
+					updateGraphics();
 				}
+			}
+			else
+			{
+				this.locations = [];
+				this.extent = MapExtent.fromLocations([]);
+				this.location = null;
+				this.coordinates = [];
+				
+				updateGraphics();
+			}
+		}
+		
+		public function addLocation(loc : Location) : void
+		{
+			if (this.locations == null || this.locations.length == 0)
+				resetLocations([loc]);
+			else
+			{
+				if (this.locations[0] is Location)
+					this.locations.push(loc);
+				else if (this.locations[0] is Array)
+					(this.locations[0] as Array).push(loc);
+
+				this.extent = MapExtent.fromLocations(locations[0]);
+				this.location = locations[0][0] as Location;
+				this.coordinates = [ locations[0].map(l2c) ];
+				
+				for each (var hole:Array in locations.slice(1))
+				{
+					addHole(hole);
+				}
+				
+				updateGraphics();
 			}
 		}
 		
@@ -144,7 +214,7 @@ package com.modestmaps.overlays
 						p = grid.coordinatePoint(coord);
 						graphics.lineTo(p.x-firstPoint.x, p.y-firstPoint.y);
 					}
-		 			if (autoClose && !ringPoint.equals(p)) {
+		 			if (autoClose && ringPoint != null && p != null && !ringPoint.equals(p)) {
 						graphics.lineTo(ringPoint.x-firstPoint.x, ringPoint.y-firstPoint.y);
 					}
 				}
