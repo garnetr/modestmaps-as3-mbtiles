@@ -141,7 +141,7 @@ package com.modestmaps.overlays
 
         public function attachMarker(marker:DisplayObject, location:Location):void
 	    {
-	        if (markers.indexOf(marker) == -1)
+	        if (markers.indexOf(marker) == -1 && location != null)
 	        {
     	        locations[marker] = location.clone();
     	        coordinates[marker] = map.getMapProvider().locationCoordinate(location);

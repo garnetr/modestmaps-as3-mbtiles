@@ -178,7 +178,7 @@ package com.modestmaps.core
 			if (!extent) {
 				extent = new MapExtent()				
 			}
-			
+
 			return extent;
 		}
 
