@@ -7,6 +7,7 @@ package com.modestmaps.mapproviders.mapbox
 	public class MBTilesMapProvider extends AbstractMapProvider implements IMapProvider
 	{
 		//private static const MBTILES_EXTENTION:String = ".mbtiles";
+		public static const MBTILES_URL_SCHEME:String = "mbtiles";
 		
 		private var _dbName:String;
 		
@@ -27,8 +28,8 @@ package com.modestmaps.mapproviders.mapbox
 			}
 			
 			var urlStr:String = formatUrl(_dbName, sourceCoord.zoom, sourceCoord.row, sourceCoord.column);
-			trace(urlStr);
-			return [];
+			//trace(urlStr);
+			return [ urlStr ];
 		}
 		
 		public function toString():String
@@ -58,7 +59,7 @@ package com.modestmaps.mapproviders.mapbox
 			}
 			
 			var urlStr:String;
-			urlStr = "mbtiles://?zoom=" + zoom + "&col=" + col + "&row=" + row + 
+			urlStr = MBTILES_URL_SCHEME + "://?zoom=" + zoom + "&col=" + col + "&row=" + row + 
 					 "&dbName=" + dbName;
 			
 			return urlStr;
