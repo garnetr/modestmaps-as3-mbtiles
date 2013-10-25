@@ -58,9 +58,12 @@ package com.modestmaps.mapproviders.mapbox
 				return null;
 			}
 			
+			//retrieve max value for current zoom
+			var max:Number = Math.pow(2, zoom) - 1;
+
 			var urlStr:String;
-			urlStr = MBTILES_URL_SCHEME + "://?zoom=" + zoom + "&col=" + col + "&row=" + row + 
-					 "&dbName=" + dbName;
+			urlStr = MBTILES_URL_SCHEME + "://?zoom=" + zoom + "&col=" + col + 
+					 "&row=" + (max - row) + "&dbName=" + dbName;
 			
 			return urlStr;
 		}
