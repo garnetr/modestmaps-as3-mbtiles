@@ -52,10 +52,13 @@ package com.modestmaps.core.painter
 		//
 		// Event Handlers
 		private function sqlTileSuccessHandler(e:SQLResult):void {
-			trace("Got tile!");
-			var data:Object = e.data[0];
-			var imageByteArray:ByteArray = data.data;
-			saveTile(imageByteArray);
+			if (e.data) {
+				var data:Object = e.data[0];
+				var imageByteArray:ByteArray = data.data;
+				saveTile(imageByteArray);
+			} else {
+				trace("no data returned for tile");
+			}
 		}
 		
 		private function sqlTileErrorHandler(e:SQLError):void {
