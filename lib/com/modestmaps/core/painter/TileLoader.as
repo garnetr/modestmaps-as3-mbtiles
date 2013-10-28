@@ -117,21 +117,21 @@ package com.modestmaps.core.painter
 		
 		private function getDBConnection(dbName:String):SQLConnection {
 			var conn:SQLConnection = connectionHash[dbName];
-			
+
 			if (!conn) {
 				conn = new SQLConnection();
-				//we will start with attempting to read from relative path
+				
 				var dbFile:File;
 				try {
-					//dbFile = new File("./" + dbName);
-					//if (!dbFile.exists) {
-						//if no dice, try to read file from application bundle
-						dbFile = File.applicationStorageDirectory.resolvePath(dbName);
-						if (!dbFile.exists) {
-							//lastly try opening from documents directory
-							dbFile = File.documentsDirectory.resolvePath(dbName);
-						}
-					//}
+					//first, try opening from documents directory
+					//this should override potential packaged db
+					//and is design for loading in iOS
+					dbFile = File.documentsDirectory.resolvePath(dbName);
+					if (!dbFile.exists) {
+						//lastly, check if DB was packaged together 
+						dbFile = File.applicationDirectory.resolvePath(dbName);
+					}
+
 				} catch (err:Error) {
 					dbFile = null;
 				}
