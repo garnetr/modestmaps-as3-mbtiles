@@ -308,7 +308,7 @@ package com.modestmaps.core
 		/** 
 		 * figures out from worldMatrix which tiles we should be showing, adds them to the stage, adds them to the tileQueue if needed, etc.
 		 * 
-		 * from my recent testing, TileGrid.onRender takes < 5ms most of the time, and rarely >10ms
+		 * from my recent testing, TileGrid.onRender takes &lt; 5ms most of the time, and rarely &gt;10ms
 		 * (Flash Player 9, Firefox, Macbook Pro)
 		 *  
 		 */

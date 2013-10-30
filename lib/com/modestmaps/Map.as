@@ -644,7 +644,7 @@ package com.modestmaps
     	 * 
     	 * <p>Animating/tweening grid.scale fires START_ZOOMING, and STOP_ZOOMING 
     	 * MapEvents unless you call grid.prepareForZooming first. Be sure
-    	 * to also call grid.stopZooming at the end of your animation.
+    	 * to also call grid.stopZooming at the end of your animation.</p>
     	 *
     	 * @param dir the direction of zoom, generally 1 for zooming in, or -1 for zooming out
     	 * 

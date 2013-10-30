@@ -121,8 +121,8 @@ package com.modestmaps.extras.ui {
 		   	    if (!contains(inIcon)) {
 		   	        addChild(inIcon);
 		   	    }
-		    	this.parent.contextMenu.items[0].enabled = false;
-		    	this.parent.contextMenu.items[1].enabled = true;
+		    	//this.parent.contextMenu.items[0].enabled = false;
+		    	//this.parent.contextMenu.items[1].enabled = true;
 			}
 		   	else
 		   	{
@@ -132,8 +132,8 @@ package com.modestmaps.extras.ui {
 		   	    if (contains(inIcon)) {
 		   	        removeChild(inIcon);
 		   	    }
-		    	this.parent.contextMenu.items[0].enabled = true;
-		    	this.parent.contextMenu.items[1].enabled = false;
+		    	//this.parent.contextMenu.items[0].enabled = true;
+		    	//this.parent.contextMenu.items[1].enabled = false;
 		   	}
 		}	
 	}

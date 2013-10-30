@@ -55,7 +55,7 @@ package com.percero.agents.maps
 			var i : int = 0;
 			if (points != null && points.length > 2)
 			{
-				for (var i : int = 0; i < points.length; ++i) {
+				for (i = 0; i < points.length; ++i) {
 					var j : int = (i + 1) % points.length;
 					var k : int = (i + 2) % points.length;
 					totalAngle += Angle(points[i], points[j], points[k]);

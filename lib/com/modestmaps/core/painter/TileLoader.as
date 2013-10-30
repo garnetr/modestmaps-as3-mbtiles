@@ -23,6 +23,14 @@ package com.modestmaps.core.painter
 	import flash.utils.ByteArray;
 	import flash.utils.Dictionary;
 	
+	/**
+	 * TileLoader extends the Loader class to support loading offline
+	 * mbtiles SQLite tiles as well as tiles hosted on remote servers.
+	 * If a http based url is provided, TileLoader functions just as
+	 * Loader does, however if a URL with the mbtiles schema is passed in
+	 * TileLoader retrieves the tile raster data from the specified
+	 * MBTiles database.
+	 */
 	public class TileLoader extends Loader
 	{
 		private static const SQL_GET_TILE:String = 
@@ -155,6 +163,9 @@ package com.modestmaps.core.painter
 			this.loadBytes(imgByteArray);
 		}
 		
+		/**
+		 * 
+		 */
 		override public function load(request:URLRequest, context:LoaderContext=null):void {
 			var urlScheme:String = request.url.replace(/:\/\/.*/,"");
 			
