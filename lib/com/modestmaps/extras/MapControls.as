@@ -86,39 +86,39 @@ package com.modestmaps.extras {
         }
         
         private var positionFunctions:Object = {
-        	left: function(child:DisplayObject, s:String, a:String):void {
+        	left: function(child:DisplayObject, s:String, a:String, aMap : Map):void {
         		if (s.lastIndexOf("%") >= 0) {
-        			child.x = map.getWidth() * parseFloat(s.substring(-1)) / 100.0;
+        			child.x = aMap.getWidth() * parseFloat(s.substring(-1)) / 100.0;
         		}
         		else { 
         			child.x = parseFloat(s.substring(-2));
         		} 
     			child.x -= a ? hAlignFunctions[a.split('-')[1]](child) : 0;
         	},
-        	right: function(child:DisplayObject, s:String, a:String):void { 
+        	right: function(child:DisplayObject, s:String, a:String, aMap : Map):void { 
         		if (s.lastIndexOf("%") >= 0) { 
-        			child.x = map.getWidth() - (map.getWidth() * parseFloat(s.substring(-1)) / 100.0) - child.width;
+        			child.x = aMap.getWidth() - (aMap.getWidth() * parseFloat(s.substring(-1)) / 100.0) - child.width;
         		}
         		else { 
-        			child.x = map.getWidth() - parseFloat(s.substring(-2)) - child.width;
+        			child.x = aMap.getWidth() - parseFloat(s.substring(-2)) - child.width;
         		} 
     			child.x += a ? hAlignFunctions[a.split('-')[1]](child) : 0;
         	},
-        	top: function(child:DisplayObject, s:String, a:String):void { 
+        	top: function(child:DisplayObject, s:String, a:String, aMap : Map):void { 
         		if (s.lastIndexOf("%") >= 0) { 
-        			child.y = map.getHeight() * parseFloat(s.substring(-1)) / 100.0;
+        			child.y = aMap.getHeight() * parseFloat(s.substring(-1)) / 100.0;
         		}
         		else { 
         			child.y = parseFloat(s.substring(-2));
         		} 
     			child.y -= a ? vAlignFunctions[a.split('-')[0]](child) : 0;
         	},
-        	bottom: function(child:DisplayObject, s:String, a:String):void { 
+        	bottom: function(child:DisplayObject, s:String, a:String, aMap : Map):void { 
         		if (s.lastIndexOf("%") >= 0) { 
-        			child.y = map.getHeight() - (map.getHeight() * parseFloat(s.substring(-1)) / 100.0) - child.height;
+        			child.y = aMap.getHeight() - (aMap.getHeight() * parseFloat(s.substring(-1)) / 100.0) - child.height;
         		}
         		else { 
-        			child.y = map.getHeight() - parseFloat(s.substring(-2)) - child.height;
+        			child.y = aMap.getHeight() - parseFloat(s.substring(-2)) - child.height;
         		} 
     			child.y += a ? vAlignFunctions[a.split('-')[0]](child) : 0;
         	}
@@ -245,7 +245,7 @@ package com.modestmaps.extras {
             	var position:Object = positions[child];
             	for (var reference:String in position) {
             		if (reference == 'align') continue;
-            		positionFunctions[reference](this[child], position[reference], position['align']);
+            		positionFunctions[reference](this[child], position[reference], position['align'], this.map);
             	}
             }
         }

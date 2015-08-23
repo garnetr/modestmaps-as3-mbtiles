@@ -196,7 +196,7 @@ package com.modestmaps.flex
 		 * instance. You can specify the latter in MXML by wrapping the constructor in
 		 * braces:
 		 * 
-		 * <modest:Map provider="{new FancyCustomMapProvider()}" .../>
+		 * &lt;modest:Map provider="{new FancyCustomMapProvider()}" .../&gt;
 		 */
 		[Inspectable(category="Map",
 					 enumeration="BLUE_MARBLE,MICROSOFT_AERIAL,MICROSOFT_ROAD,MICROSOFT_HYBRID,YAHOO_ROAD,YAHOO_AERIAL,YAHOO_HYBRID,OPEN_STREET_MAP",

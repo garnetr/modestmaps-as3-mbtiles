@@ -142,7 +142,7 @@ package com.modestmaps.core.painter
 				tileQueue.remove(tile);
 			}
 			for (var i:int = openRequests.length - 1; i >= 0; i--) {
-				var loader:Loader = openRequests[i] as Loader;
+				var loader:TileLoader = openRequests[i] as TileLoader;
 				if (loader.name == tile.name) {
 					loaderTiles[loader] = null;
 					delete loaderTiles[loader];
@@ -161,7 +161,7 @@ package com.modestmaps.core.painter
 	
 		public function reset():void
 		{
-			for each (var loader:Loader in openRequests) {
+			for each (var loader:TileLoader in openRequests) {
 				var tile:Tile = loaderTiles[loader] as Tile;
 				loaderTiles[loader] = null;
 				delete loaderTiles[loader];
@@ -170,8 +170,8 @@ package com.modestmaps.core.painter
 				}
 				try {
 					// la la I can't hear you
-					loader.contentLoaderInfo.removeEventListener(Event.COMPLETE, onLoadEnd);
-					loader.contentLoaderInfo.removeEventListener(IOErrorEvent.IO_ERROR, onLoadError);
+					loader.removeEventListener(Event.COMPLETE, onLoadEnd);
+					loader.removeEventListener(IOErrorEvent.IO_ERROR, onLoadError);
 					loader.close();
 				}
 				catch (error:Error) {
@@ -204,7 +204,7 @@ package com.modestmaps.core.painter
 				}
 				else {
 					//trace("requesting", url);
-					var tileLoader:Loader = new Loader();
+					var tileLoader:TileLoader = new TileLoader();
 					loaderTiles[tileLoader] = tile;
 					tileLoader.name = tile.name;
 					try {
@@ -215,12 +215,13 @@ package com.modestmaps.core.painter
 						else {
 							tileLoader.load((url is URLRequest) ? url : new URLRequest(url));
 						}
-						tileLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, onLoadEnd, false, 0, true);
-						tileLoader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, onLoadError, false, 0, true);
+						tileLoader.addEventListener(Event.COMPLETE, onLoadEnd, false, 0, true);
+						tileLoader.addEventListener(IOErrorEvent.IO_ERROR, onLoadError, false, 0, true);
 						openRequests.push(tileLoader);
 					}
 					catch(error:Error) {
 						tile.paintError();
+						trace("TilePainter::loadNextURLForTile failed - " + error.message);
 					}
 				}
 			}
@@ -284,14 +285,15 @@ package com.modestmaps.core.painter
 	
 		private function onLoadEnd(event:Event):void
 		{
-			var loader:Loader = (event.target as LoaderInfo).loader;
+			//var loader:Loader = (event.target as LoaderInfo).loader;
+			var loader:TileLoader = event.target as TileLoader;
 			
-			if (cacheLoaders && !loaderCache[loader.contentLoaderInfo.url]) {
+			if (cacheLoaders && !loaderCache[loader.loaderUrl]) {
 				//trace('caching content for', loader.contentLoaderInfo.url);
 				try {
-					var content:Bitmap = loader.content as Bitmap;
-					loaderCache[loader.contentLoaderInfo.url] = content;
-					cachedUrls.push(loader.contentLoaderInfo.url);
+					var content:Bitmap = loader.loaderContent as Bitmap;
+					loaderCache[loader.loaderUrl] = content;
+					cachedUrls.push(loader.loaderUrl);
 					if (cachedUrls.length > maxLoaderCacheSize) {
 						delete loaderCache[cachedUrls.shift()];
 					}
@@ -333,10 +335,10 @@ package com.modestmaps.core.painter
 	
 		private function onLoadError(event:IOErrorEvent):void
 		{
-			var loaderInfo:LoaderInfo = event.target as LoaderInfo;
+			var curLoader:TileLoader = event.target as TileLoader;
 			for (var i:int = openRequests.length-1; i >= 0; i--) {
-				var loader:Loader = openRequests[i] as Loader;
-				if (loader.contentLoaderInfo == loaderInfo) {
+				var loader:TileLoader = openRequests[i] as TileLoader;
+				if (loader == curLoader) {
 					openRequests.splice(i,1);
 					delete layersNeeded[loader.name];
 					var tile:Tile = loaderTiles[loader] as Tile;
