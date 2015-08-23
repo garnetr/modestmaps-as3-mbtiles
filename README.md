@@ -6,7 +6,7 @@ The code is more of a proof of concept vs a well tested finished product so use 
 
 ## Basic usage
 
-Include the code from the `lib` folder within your project. Be sure your mbtiles file is also included in your document root of your project and then add the following map sorce:
+To use an MBTiles enabled modest map build, you can either include the swc _(located in swc/bin/ModestMapsSWC.swc)_ or the source code located in the `lib` folder within your project. Be sure your mbtiles file is also included in the document root of your project and then add the following map sorce:
 
 ```
 mbtiles://?zoom=(zoom_val)&col=(col_val)&row=(row_val)&dbName=(dbName_val)
